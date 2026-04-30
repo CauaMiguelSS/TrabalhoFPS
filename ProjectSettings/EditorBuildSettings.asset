@@ -5,9 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/LeartesStudios/CoffeeShopInterior/HDRP/Scenes/CoffeeShopInteriorDAY.unity
+    guid: 79b77b99f469ac04cb13088d83ea956d
+  - enabled: 1
+    path: Assets/LeartesStudios/CoffeeShopInterior/HDRP/Scenes/CoffeeShopInteriorNIGHT.unity
+    guid: 0af8384a0fcf85e48ba00ea24cf7defb
+  - enabled: 1
+    path: Assets/LeartesStudios/CoffeeShopInterior/HDRP/Scenes/Overview.unity
+    guid: 12b66c07dae06114f803d41094e357d0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
