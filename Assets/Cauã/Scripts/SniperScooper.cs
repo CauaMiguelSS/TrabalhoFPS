@@ -8,35 +8,40 @@ public class SniperScooper : MonoBehaviour
     [SerializeField] private float zoomFOV = 25f;
     [SerializeField] private float zoomSpeed = 10f;
 
-    private Camera playerCamera;
-    private bool isAiming;
+    private Camera cam;
 
     void Start()
     {
-        playerCamera = Camera.main;
+        cam = Camera.main;
 
-        if (playerCamera != null)
-            normalFOV = playerCamera.fieldOfView;
+        if (cam == null)
+            Debug.LogError("Não achei a MainCamera!");
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (playerCamera == null) return;
+        if (cam == null) return;
 
-        isAiming = Mouse.current.rightButton.isPressed;
+        bool mirando = Mouse.current.rightButton.isPressed;
 
-        float targetFOV = isAiming ? zoomFOV : normalFOV;
+        float alvo = mirando ? zoomFOV : normalFOV;
 
-        playerCamera.fieldOfView = Mathf.Lerp(
-            playerCamera.fieldOfView,
-            targetFOV,
+        cam.fieldOfView = Mathf.Lerp(
+            cam.fieldOfView,
+            alvo,
             Time.deltaTime * zoomSpeed
         );
     }
 
     private void OnDisable()
     {
-        if (playerCamera != null)
-            playerCamera.fieldOfView = normalFOV;
+        if (cam != null)
+            cam.fieldOfView = normalFOV;
+    }
+
+    private void OnDestroy()
+    {
+        if (cam != null)
+            cam.fieldOfView = normalFOV;
     }
 }

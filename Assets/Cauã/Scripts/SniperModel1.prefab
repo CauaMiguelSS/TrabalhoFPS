@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4361411368041299234}
   m_Layer: 0
   m_Name: SniperModel1
-  m_TagString: Untagged
+  m_TagString: Gun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,14 +24,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3594193981681752765}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4013421, y: 0.109154135, z: 6.2396297}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.11089449, z: -0, w: 0.99383223}
+  m_LocalPosition: {x: 0.22228, y: 0.12989, z: 6.1372}
+  m_LocalScale: {x: 0.726, y: 0.726, z: 0.726}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 70686698127355103}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 12.734, z: 0}
 --- !u!1001 &5537002765332125955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43,6 +43,10 @@ PrefabInstance:
     - target: {fileID: 5145242917378699110, guid: 8d51fc40962fae449965c7966e9c0109, type: 3}
       propertyPath: m_Name
       value: TR-90 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5145242917378699110, guid: 8d51fc40962fae449965c7966e9c0109, type: 3}
+      propertyPath: m_TagString
+      value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 5488836265841522140, guid: 8d51fc40962fae449965c7966e9c0109, type: 3}
       propertyPath: m_LocalPosition.x
@@ -90,7 +94,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5145242917378699110, guid: 8d51fc40962fae449965c7966e9c0109, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3181429500532269481}
+      addedObject: {fileID: 2627167152421324205}
   m_SourcePrefab: {fileID: 100100000, guid: 8d51fc40962fae449965c7966e9c0109, type: 3}
 --- !u!4 &70686698127355103 stripped
 Transform:
@@ -102,7 +106,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5145242917378699110, guid: 8d51fc40962fae449965c7966e9c0109, type: 3}
   m_PrefabInstance: {fileID: 5537002765332125955}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3181429500532269481
+--- !u!114 &2627167152421324205
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
