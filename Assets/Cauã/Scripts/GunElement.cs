@@ -28,6 +28,12 @@ public class GunElement : Element
     [SerializeField] private int _pellets = 1;
     [SerializeField] private float _spread = 0f;
 
+    [Header("Scope")]
+    [SerializeField] private bool _hasScope;
+
+    public bool HasScope => _hasScope;
+
+
     private int _currentClip;
     private bool _initialized;
 

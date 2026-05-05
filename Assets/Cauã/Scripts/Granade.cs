@@ -27,7 +27,8 @@ public class Grenade : MonoBehaviour
         {
             if (hit.TryGetComponent(out IShootable shootable))
             {
-                shootable.Hitted(damage, transform.position);
+                Vector3 direction = (hit.transform.position - transform.position).normalized;
+                shootable.Hitted(damage, transform.position, direction);
             }
         }
 

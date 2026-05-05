@@ -43,7 +43,7 @@ public class MeleeAttack : MonoBehaviour
         {
             if (hit.TryGetComponent(out IShootable shootable))
             {
-                shootable.Hitted(damage, hit.ClosestPoint(cam.transform.position));
+                shootable.Hitted(damage, hit.ClosestPoint(cam.transform.position), cam.transform.forward);
                 Debug.Log("Acertou melee em: " + hit.name);
                 break;
             }
