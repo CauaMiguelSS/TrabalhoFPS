@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/LeartesStudios/CoffeeShopInterior/HDRP/Scenes/Overview.unity
     guid: 12b66c07dae06114f803d41094e357d0
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 9ea954cbdf1d1be40ab743792a7c931e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

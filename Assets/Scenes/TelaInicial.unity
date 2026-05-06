@@ -18904,7 +18904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f4abf8b1edff149b5a000d8f327122, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenu
-  nomeDaCenaDoJogo: CoffeeShopInteriorNIGHT
+  nomeDaCenaDoJogo: Game
 --- !u!4 &1331610313
 Transform:
   m_ObjectHideFlags: 0

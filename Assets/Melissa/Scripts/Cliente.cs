@@ -4,17 +4,21 @@ using UnityEngine.AI;
 [System.Serializable]
 public class PontoAtendimento
 {
-    public Transform posicao; // onde o cliente para
-    public Transform olhar;   // para onde ele olha
+    public Transform posicao;
+    public Transform olhar;
+
+    [HideInInspector] public bool ocupado;
 }
 
 public class Cliente : MonoBehaviour
 {
     public PontoAtendimento[] pontos;
+    public Spawner spawner;
 
     private NavMeshAgent agent;
     private Transform alvo;
     private Transform direcaoBalcao;
+    private PontoAtendimento meuPonto;
 
     private bool chegou = false;
 
@@ -22,16 +26,36 @@ public class Cliente : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        int i = Random.Range(0, pontos.Length);
-
-        alvo = pontos[i].posicao;
-        direcaoBalcao = pontos[i].olhar;
-
         agent.stoppingDistance = 1.0f;
         agent.updateRotation = false;
 
-        agent.SetDestination(alvo.position);
+        EscolherPonto();
+
+        if (alvo != null)
+        {
+            agent.SetDestination(alvo.position);
+        }
+
         transform.rotation = Quaternion.identity;
+    }
+
+    void EscolherPonto()
+    {
+        foreach (var p in pontos)
+        {
+            if (!p.ocupado)
+            {
+                p.ocupado = true;
+                meuPonto = p;
+
+                alvo = p.posicao;
+                direcaoBalcao = p.olhar;
+                return;
+            }
+        }
+
+        // Se não tem ponto livre, o NPC só desiste da vida
+        Destroy(gameObject);
     }
 
     void Update()
@@ -52,9 +76,12 @@ public class Cliente : MonoBehaviour
             chegou = true;
             agent.isStopped = true;
             agent.velocity = Vector3.zero;
+
+            // Simula atendimento e saída depois de um tempo
+            Invoke(nameof(Sair), Random.Range(3f, 6f));
         }
 
-        // OLHAR PRO BALCÃO (suave)
+        // OLHAR PRO BALCÃO
         if (chegou && direcaoBalcao != null)
         {
             Vector3 direcao = direcaoBalcao.position - transform.position;
@@ -63,5 +90,20 @@ public class Cliente : MonoBehaviour
             Quaternion rotacaoAlvo = Quaternion.LookRotation(direcao);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotacaoAlvo, Time.deltaTime * 5f);
         }
+    }
+
+    void Sair()
+    {
+        if (meuPonto != null)
+        {
+            meuPonto.ocupado = false;
+        }
+
+        if (spawner != null)
+        {
+            spawner.RemoverNPC();
+        }
+
+        Destroy(gameObject);
     }
 }
