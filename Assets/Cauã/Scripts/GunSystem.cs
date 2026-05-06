@@ -104,7 +104,7 @@ public class GunSystem : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent(out IShootable shootable))
                 {
-                    shootable.Hitted(_handGun.Damage, hit.point);
+                    shootable.Hitted(_handGun.Damage, hit.point, direction);
                 }
             }
         }
@@ -136,6 +136,13 @@ public class GunSystem : MonoBehaviour
         _handGun.OnReload.AddListener(() => StartCoroutine(Reload()));
 
         _shootTimer = _handGun.ShootRate;
+        
+        SniperZoom zoom = GetComponent<SniperZoom>();
+
+        if (zoom != null)
+        {
+            zoom.SetCanZoom(_handGun.HasScope);
+        }
     }
 
     private IEnumerator Reload()
