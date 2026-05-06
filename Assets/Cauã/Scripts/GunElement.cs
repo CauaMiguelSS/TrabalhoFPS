@@ -31,8 +31,8 @@ public class GunElement : Element
     [Header("Scope")]
     [SerializeField] private bool _hasScope;
 
-    public bool HasScope => _hasScope;
-
+    [Header("Effects")]
+    [SerializeField] private GameObject _muzzleFlash;
 
     private int _currentClip;
     private bool _initialized;
@@ -83,5 +83,7 @@ public class GunElement : Element
     public float ReloadTime => _reloadTime;
     public int Pellets => _pellets;
     public float Spread => _spread;
+    public bool HasScope => _hasScope;
     public GameObject GunModel => _gunModel;
+    public GameObject MuzzleFlash => _muzzleFlash;
 }

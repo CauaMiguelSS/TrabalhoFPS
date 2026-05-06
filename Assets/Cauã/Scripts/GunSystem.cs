@@ -51,9 +51,7 @@ public class GunSystem : MonoBehaviour
         float scroll = Mouse.current.scroll.ReadValue().y;
 
         if (scroll != 0)
-        {
             ChangeWeapon(scroll);
-        }
     }
 
     private void HandleReload()
@@ -75,17 +73,15 @@ public class GunSystem : MonoBehaviour
         if (_isReloading) return;
         if (_shootTimer < _handGun.ShootRate) return;
 
-        bool shootInput;
-
-        if (_handGun.Automatic)
-            shootInput = Mouse.current.leftButton.isPressed;
-        else
-            shootInput = Mouse.current.leftButton.wasPressedThisFrame;
+        bool shootInput = _handGun.Automatic
+            ? Mouse.current.leftButton.isPressed
+            : Mouse.current.leftButton.wasPressedThisFrame;
 
         if (!shootInput) return;
 
         if (!_handGun.UseAmmo()) return;
 
+        SpawnMuzzleFlash();
         ShootHitscan();
 
         _shootTimer = 0;
@@ -108,6 +104,30 @@ public class GunSystem : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SpawnMuzzleFlash()
+    {
+        if (_handGun.MuzzleFlash == null) return;
+        if (_handGunModelParent.childCount <= 0) return;
+
+        Transform currentGun = _handGunModelParent.GetChild(0);
+        Transform muzzlePoint = currentGun.Find("MuzzlePoint");
+
+        if (muzzlePoint == null)
+        {
+            Debug.LogWarning("Não achei MuzzlePoint na arma: " + _handGun.Name);
+            return;
+        }
+
+        GameObject flash = Instantiate(
+            _handGun.MuzzleFlash,
+            muzzlePoint.position,
+            muzzlePoint.rotation,
+            muzzlePoint
+        );
+
+        Destroy(flash, 0.1f);
     }
 
     private void ChangeWeapon(float direction)
@@ -136,7 +156,7 @@ public class GunSystem : MonoBehaviour
         _handGun.OnReload.AddListener(() => StartCoroutine(Reload()));
 
         _shootTimer = _handGun.ShootRate;
-        
+
         SniperZoom zoom = GetComponent<SniperZoom>();
 
         if (zoom != null)
@@ -177,7 +197,6 @@ public class GunSystem : MonoBehaviour
 
         gun.transform.localPosition = Vector3.zero;
         gun.transform.localRotation = Quaternion.identity;
-
-        gun.layer = LayerMask.NameToLayer("Gun");
+        gun.transform.localScale = Vector3.one;
     }
 }
