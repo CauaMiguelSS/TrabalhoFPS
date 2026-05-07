@@ -154,5 +154,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Grenade
   delay: 5
   radius: 5
-  damage: 50
-  explosionEffect: {fileID: 0}
+  damage: 200
+  explosionEffect: {fileID: 100004, guid: b46890100828db6429ff69c322b45893, type: 3}

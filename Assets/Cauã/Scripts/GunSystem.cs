@@ -25,6 +25,7 @@ public class GunSystem : MonoBehaviour
     [Header("Gun")]
     [SerializeField] private GunElement _handGun;
     [SerializeField] private Transform _handGunModelParent;
+    [SerializeField] private AudioSource _audioSource;
 
     private Transform _camera;
     private float _shootTimer;
@@ -83,6 +84,7 @@ public class GunSystem : MonoBehaviour
         if (!_handGun.UseAmmo()) return;
 
         SpawnMuzzleFlash();
+        PlayShootSound();
         PlayRecoil();
         ShootHitscan();
 
@@ -133,7 +135,8 @@ public class GunSystem : MonoBehaviour
     }
     private void PlayRecoil()
     {
-        GunRecoil recoil = _handGunModelParent.GetComponent<GunRecoil>();
+        WeaponRecoil recoil =
+            _handGunModelParent.GetComponentInParent<WeaponRecoil>();
 
         if (recoil != null)
         {
@@ -173,6 +176,17 @@ public class GunSystem : MonoBehaviour
         {
             zoom.SetCanZoom(_handGun.HasScope);
         }
+        
+        WeaponRecoil recoil = _handGunModelParent.GetComponentInParent<WeaponRecoil>();
+
+        if (recoil != null)
+        {
+            recoil.SetRecoil(
+                _handGun.RecoilAmount,
+                _handGun.RecoilSpeed,
+                _handGun.ReturnSpeed
+            );
+        }
     }
 
     private IEnumerator Reload()
@@ -180,6 +194,8 @@ public class GunSystem : MonoBehaviour
         if (_isReloading) yield break;
 
         _isReloading = true;
+
+        PlayReloadSound();
 
         yield return new WaitForSeconds(_handGun.ReloadTime);
 
@@ -208,5 +224,19 @@ public class GunSystem : MonoBehaviour
         gun.transform.localPosition = Vector3.zero;
         gun.transform.localRotation = Quaternion.identity;
         gun.transform.localScale = Vector3.one;
+    }
+    private void PlayShootSound()
+    {
+        if (_handGun.ShootSound == null) return;
+        if (_audioSource == null) return;
+
+        _audioSource.PlayOneShot(_handGun.ShootSound);
+    }
+    private void PlayReloadSound()
+    {
+        if (_handGun.ReloadSound == null) return;
+        if (_audioSource == null) return;
+
+        _audioSource.PlayOneShot(_handGun.ReloadSound);
     }
 }
