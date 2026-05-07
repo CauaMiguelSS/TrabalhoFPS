@@ -1,17 +1,21 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class MeleeAttack : MonoBehaviour
 {
-    [Header("Config")]
+    [Header("Attack")]
     [SerializeField] private float damage = 25f;
     [SerializeField] private float range = 2f;
     [SerializeField] private float radius = 1f;
-
-    [Header("Delay")]
     [SerializeField] private float attackDelay = 0.5f;
-    private bool canAttack = true;
 
+    [Header("Effect")]
+    [SerializeField] private GameObject slashEffect;
+    [SerializeField] private float effectDistance = 1f;
+    [SerializeField] private float effectLifeTime = 0.5f;
+
+    private bool canAttack = true;
     private Camera cam;
 
     void Start()
@@ -29,22 +33,23 @@ public class MeleeAttack : MonoBehaviour
 
     void Attack()
     {
-        if (!canAttack)
-        {
-            Debug.Log("Aguarde...");
-            return;
-        }
+        if (!canAttack) return;
+
+        SpawnSlashEffect();
 
         Vector3 center = cam.transform.position + cam.transform.forward * range;
-
         Collider[] hits = Physics.OverlapSphere(center, radius);
 
         foreach (Collider hit in hits)
         {
             if (hit.TryGetComponent(out IShootable shootable))
             {
-                shootable.Hitted(damage, hit.ClosestPoint(cam.transform.position), cam.transform.forward);
-                Debug.Log("Acertou melee em: " + hit.name);
+                shootable.Hitted(
+                    damage,
+                    hit.ClosestPoint(cam.transform.position),
+                    cam.transform.forward
+                );
+
                 break;
             }
         }
@@ -52,20 +57,27 @@ public class MeleeAttack : MonoBehaviour
         StartCoroutine(AttackCooldown());
     }
 
-    System.Collections.IEnumerator AttackCooldown()
+    void SpawnSlashEffect()
+    {
+        if (slashEffect == null) return;
+
+        Vector3 spawnPos = cam.transform.position + cam.transform.forward * effectDistance;
+
+        GameObject effect = Instantiate(
+            slashEffect,
+            spawnPos,
+            cam.transform.rotation
+        );
+
+        effect.transform.SetParent(cam.transform);
+
+        Destroy(effect, effectLifeTime);
+    }
+
+    IEnumerator AttackCooldown()
     {
         canAttack = false;
         yield return new WaitForSeconds(attackDelay);
         canAttack = true;
-    }
-
-    // só pra visualizar no editor
-    void OnDrawGizmosSelected()
-    {
-        if (cam == null) return;
-
-        Gizmos.color = Color.red;
-        Vector3 center = cam.transform.position + cam.transform.forward * range;
-        Gizmos.DrawWireSphere(center, radius);
     }
 }

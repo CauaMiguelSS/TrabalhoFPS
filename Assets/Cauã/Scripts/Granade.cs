@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    [Header("Explosão")]
+    [Header("Explosion")]
     [SerializeField] private float delay = 2f;
     [SerializeField] private float radius = 5f;
     [SerializeField] private float damage = 50f;
     [SerializeField] private GameObject explosionEffect;
+
+    private bool exploded;
 
     void Start()
     {
@@ -15,10 +17,18 @@ public class Grenade : MonoBehaviour
 
     void Explode()
     {
+        if (exploded) return;
+        exploded = true;
 
         if (explosionEffect != null)
         {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(
+                explosionEffect,
+                transform.position,
+                Quaternion.identity
+            );
+
+            Destroy(effect, 3f);
         }
 
         Collider[] hits = Physics.OverlapSphere(transform.position, radius);

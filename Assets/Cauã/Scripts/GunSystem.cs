@@ -30,6 +30,7 @@ public class GunSystem : MonoBehaviour
     private float _shootTimer;
     private bool _isReloading;
 
+    public GunElement CurrentGun => _handGun;
     void Start()
     {
         _camera = Camera.main.transform;
@@ -82,6 +83,7 @@ public class GunSystem : MonoBehaviour
         if (!_handGun.UseAmmo()) return;
 
         SpawnMuzzleFlash();
+        PlayRecoil();
         ShootHitscan();
 
         _shootTimer = 0;
@@ -129,7 +131,15 @@ public class GunSystem : MonoBehaviour
 
         Destroy(flash, 0.1f);
     }
+    private void PlayRecoil()
+    {
+        GunRecoil recoil = _handGunModelParent.GetComponent<GunRecoil>();
 
+        if (recoil != null)
+        {
+            recoil.Recoil();
+        }
+    }
     private void ChangeWeapon(float direction)
     {
         if (_gunInventory.Guns.Count <= 1) return;
