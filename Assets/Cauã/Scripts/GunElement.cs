@@ -13,6 +13,11 @@ public class GunElement : Element
     [SerializeField] private GameObject _gunModel;
     [SerializeField] private string _name;
 
+    [Header("Recoil")]
+    [SerializeField] private float _recoilAmount = 2f;
+    [SerializeField] private float _recoilSpeed = 15f;
+    [SerializeField] private float _returnSpeed = 10f;
+
     [Header("Stats")]
     [SerializeField] private float _damage = 10;
     [SerializeField] private float _shootRate = 0.3f;
@@ -31,11 +36,20 @@ public class GunElement : Element
     [Header("Scope")]
     [SerializeField] private bool _hasScope;
 
-    public bool HasScope => _hasScope;
+    [Header("Effects")]
+    [SerializeField] private GameObject _muzzleFlash;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip _shootSound;
+    [SerializeField] private AudioClip _reloadSound;
 
+    public AudioClip ReloadSound => _reloadSound;
+    public AudioClip ShootSound => _shootSound;
     private int _currentClip;
     private bool _initialized;
+    public float RecoilAmount => _recoilAmount;
+    public float RecoilSpeed => _recoilSpeed;
+    public float ReturnSpeed => _returnSpeed;
 
     public void Initialize()
     {
@@ -56,6 +70,12 @@ public class GunElement : Element
         }
 
         _currentClip--;
+
+        if (_currentClip <= 0 && _totalAmmo > 0)
+        {
+            OnReload.Invoke();
+        }
+
         return true;
     }
 
@@ -83,5 +103,7 @@ public class GunElement : Element
     public float ReloadTime => _reloadTime;
     public int Pellets => _pellets;
     public float Spread => _spread;
+    public bool HasScope => _hasScope;
     public GameObject GunModel => _gunModel;
+    public GameObject MuzzleFlash => _muzzleFlash;
 }

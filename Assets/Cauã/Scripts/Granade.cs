@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class Grenade : MonoBehaviour
 {
-    [Header("Explosão")]
+    [Header("Explosion")]
     [SerializeField] private float delay = 2f;
     [SerializeField] private float radius = 5f;
     [SerializeField] private float damage = 50f;
+
+    [Header("Effects")]
     [SerializeField] private GameObject explosionEffect;
+
+    private bool exploded;
 
     void Start()
     {
@@ -15,10 +19,19 @@ public class Grenade : MonoBehaviour
 
     void Explode()
     {
+        if (exploded) return;
+
+        exploded = true;
 
         if (explosionEffect != null)
         {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+            GameObject effect = Instantiate(
+                explosionEffect,
+                transform.position,
+                Quaternion.identity
+            );
+
+            Destroy(effect, 5f);
         }
 
         Collider[] hits = Physics.OverlapSphere(transform.position, radius);
@@ -27,8 +40,14 @@ public class Grenade : MonoBehaviour
         {
             if (hit.TryGetComponent(out IShootable shootable))
             {
-                Vector3 direction = (hit.transform.position - transform.position).normalized;
-                shootable.Hitted(damage, transform.position, direction);
+                Vector3 direction =
+                    (hit.transform.position - transform.position).normalized;
+
+                shootable.Hitted(
+                    damage,
+                    transform.position,
+                    direction
+                );
             }
         }
 

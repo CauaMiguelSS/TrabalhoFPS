@@ -25,11 +25,13 @@ public class GunSystem : MonoBehaviour
     [Header("Gun")]
     [SerializeField] private GunElement _handGun;
     [SerializeField] private Transform _handGunModelParent;
+    [SerializeField] private AudioSource _audioSource;
 
     private Transform _camera;
     private float _shootTimer;
     private bool _isReloading;
 
+    public GunElement CurrentGun => _handGun;
     void Start()
     {
         _camera = Camera.main.transform;
@@ -51,9 +53,7 @@ public class GunSystem : MonoBehaviour
         float scroll = Mouse.current.scroll.ReadValue().y;
 
         if (scroll != 0)
-        {
             ChangeWeapon(scroll);
-        }
     }
 
     private void HandleReload()
@@ -75,17 +75,17 @@ public class GunSystem : MonoBehaviour
         if (_isReloading) return;
         if (_shootTimer < _handGun.ShootRate) return;
 
-        bool shootInput;
-
-        if (_handGun.Automatic)
-            shootInput = Mouse.current.leftButton.isPressed;
-        else
-            shootInput = Mouse.current.leftButton.wasPressedThisFrame;
+        bool shootInput = _handGun.Automatic
+            ? Mouse.current.leftButton.isPressed
+            : Mouse.current.leftButton.wasPressedThisFrame;
 
         if (!shootInput) return;
 
         if (!_handGun.UseAmmo()) return;
 
+        SpawnMuzzleFlash();
+        PlayShootSound();
+        PlayRecoil();
         ShootHitscan();
 
         _shootTimer = 0;
@@ -110,6 +110,39 @@ public class GunSystem : MonoBehaviour
         }
     }
 
+    private void SpawnMuzzleFlash()
+    {
+        if (_handGun.MuzzleFlash == null) return;
+        if (_handGunModelParent.childCount <= 0) return;
+
+        Transform currentGun = _handGunModelParent.GetChild(0);
+        Transform muzzlePoint = currentGun.Find("MuzzlePoint");
+
+        if (muzzlePoint == null)
+        {
+            Debug.LogWarning("Não achei MuzzlePoint na arma: " + _handGun.Name);
+            return;
+        }
+
+        GameObject flash = Instantiate(
+            _handGun.MuzzleFlash,
+            muzzlePoint.position,
+            muzzlePoint.rotation,
+            muzzlePoint
+        );
+
+        Destroy(flash, 0.1f);
+    }
+    private void PlayRecoil()
+    {
+        WeaponRecoil recoil =
+            _handGunModelParent.GetComponentInParent<WeaponRecoil>();
+
+        if (recoil != null)
+        {
+            recoil.Recoil();
+        }
+    }
     private void ChangeWeapon(float direction)
     {
         if (_gunInventory.Guns.Count <= 1) return;
@@ -136,12 +169,23 @@ public class GunSystem : MonoBehaviour
         _handGun.OnReload.AddListener(() => StartCoroutine(Reload()));
 
         _shootTimer = _handGun.ShootRate;
-        
+
         SniperZoom zoom = GetComponent<SniperZoom>();
 
         if (zoom != null)
         {
             zoom.SetCanZoom(_handGun.HasScope);
+        }
+        
+        WeaponRecoil recoil = _handGunModelParent.GetComponentInParent<WeaponRecoil>();
+
+        if (recoil != null)
+        {
+            recoil.SetRecoil(
+                _handGun.RecoilAmount,
+                _handGun.RecoilSpeed,
+                _handGun.ReturnSpeed
+            );
         }
     }
 
@@ -150,6 +194,8 @@ public class GunSystem : MonoBehaviour
         if (_isReloading) yield break;
 
         _isReloading = true;
+
+        PlayReloadSound();
 
         yield return new WaitForSeconds(_handGun.ReloadTime);
 
@@ -177,7 +223,20 @@ public class GunSystem : MonoBehaviour
 
         gun.transform.localPosition = Vector3.zero;
         gun.transform.localRotation = Quaternion.identity;
+        gun.transform.localScale = Vector3.one;
+    }
+    private void PlayShootSound()
+    {
+        if (_handGun.ShootSound == null) return;
+        if (_audioSource == null) return;
 
-        gun.layer = LayerMask.NameToLayer("Gun");
+        _audioSource.PlayOneShot(_handGun.ShootSound);
+    }
+    private void PlayReloadSound()
+    {
+        if (_handGun.ReloadSound == null) return;
+        if (_audioSource == null) return;
+
+        _audioSource.PlayOneShot(_handGun.ReloadSound);
     }
 }

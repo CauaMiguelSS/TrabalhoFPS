@@ -13,7 +13,7 @@ public class GrenadeThrower : MonoBehaviour
     private int currentGrenades;
 
     [Header("Delay entre granadas")]
-    [SerializeField] private float throwDelay = 0.8f; // tempo entre usos
+    [SerializeField] private float throwDelay = 0.8f;
     private bool canThrow = true;
 
     private Camera cam;
@@ -40,11 +40,6 @@ public class GrenadeThrower : MonoBehaviour
         }
 
         if (currentGrenades <= 0)
-        {
-            return;
-        }
-
-        if (grenadePrefab == null)
         {
             return;
         }
