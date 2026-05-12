@@ -11,6 +11,9 @@ TagManager:
   - Gun
   - Food
   - Enemy
+  - FxTemporaire
+  - Fruta
+  - Fruit
   layers:
   - Default
   - TransparentFX
