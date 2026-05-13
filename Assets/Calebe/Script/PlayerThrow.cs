@@ -56,7 +56,13 @@ public class PlayerThrow : MonoBehaviour
 
         rb.isKinematic = false;
         rb.linearVelocity = Vector3.zero;
-        rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse);
+
+        rb.AddForce(
+            playerCamera.transform.forward * throwForce,
+            ForceMode.Impulse
+        );
+
+        Destroy(heldItem, 5f);
 
         heldItem = null;
     }

@@ -532,21 +532,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2629127272418962556, guid: 8dc465f46b6c8b242be3b0a23bd18bf1, type: 3}
   m_PrefabInstance: {fileID: 751967265}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &402618666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 402618665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e42896a68f5ca354a971d091adb77626, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FruitSpawner
-  fruitPrefab: {fileID: 402618665}
-  spawnPoint: {fileID: 1035975594}
-  respawnTime: 2
 --- !u!54 &402618670
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -882,7 +867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3402286997658842822, guid: 8dc465f46b6c8b242be3b0a23bd18bf1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.91788
+      value: -5.22
       objectReference: {fileID: 0}
     - target: {fileID: 3402286997658842822, guid: 8dc465f46b6c8b242be3b0a23bd18bf1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -920,9 +905,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2629127272418962556, guid: 8dc465f46b6c8b242be3b0a23bd18bf1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 402618666}
     - targetCorrespondingSourceObject: {fileID: 2629127272418962556, guid: 8dc465f46b6c8b242be3b0a23bd18bf1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 402618671}
@@ -973,8 +955,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1035975594}
+  - component: {fileID: 1035975595}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Respawnando
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -995,6 +978,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1035975595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035975593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e42896a68f5ca354a971d091adb77626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FruitSpawner
+  fruitPrefab: {fileID: 402618665}
+  spawnPoint: {fileID: 1035975594}
+  respawnTime: 0.1
 --- !u!1001 &1144385236
 PrefabInstance:
   m_ObjectHideFlags: 0
