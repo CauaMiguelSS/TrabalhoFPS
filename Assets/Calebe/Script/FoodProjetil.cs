@@ -9,11 +9,11 @@ public class FoodProjetil : MonoBehaviour
         // Só reage se for inimigo
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Inimigo enemy = collision.gameObject.GetComponent<Inimigo>();
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
 
             if (enemy != null)
             {
-                enemy.Die();
+                enemy.TakeDamage(1);
             }
 
             if (explosionEffect != null)
@@ -23,5 +23,7 @@ public class FoodProjetil : MonoBehaviour
 
             Destroy(gameObject);
         }
+
     }
+
 }
