@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2335521}
   - component: {fileID: 2335523}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -533,15 +533,23 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 407657947}
     m_Modifications:
     - target: {fileID: 230170549489163607, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5515825430014087160, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5515825430014087160, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
     - target: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.0933232
+      value: 2.093323
       objectReference: {fileID: 0}
     - target: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_LocalScale.y
@@ -553,15 +561,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 38.65
+      value: -1.008
       objectReference: {fileID: 0}
     - target: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.4179485
+      value: -0.558
       objectReference: {fileID: 0}
     - target: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -83.66911
+      value: 0.9308853
       objectReference: {fileID: 0}
     - target: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -606,6 +614,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6834572334575387979, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1480802539}
+    - targetCorrespondingSourceObject: {fileID: 6834572334575387979, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1480802541}
   m_SourcePrefab: {fileID: 100100000, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
 --- !u!1 &402618665 stripped
 GameObject:
@@ -686,7 +697,7 @@ GameObject:
   - component: {fileID: 407657945}
   - component: {fileID: 407657948}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Player Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -766,6 +777,7 @@ Transform:
   m_Children:
   - {fileID: 1399185775}
   - {fileID: 800759106}
+  - {fileID: 1480802540}
   m_Father: {fileID: 2335519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &407657948
@@ -1461,6 +1473,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &1480802540 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6166157962783252465, guid: 248da5bbc1b94c3408fc184fa34afb7d, type: 3}
+  m_PrefabInstance: {fileID: 160051176}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1480802541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480802538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f38a62bdb6f6bd418ebeed38cf9829a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeeleWeapon
+  attackRange: 2
+  damage: 2
+  attackCooldown: 0.5
+  playerCamera: {fileID: 407657946}
 --- !u!1001 &1516349714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1918,4 +1951,3 @@ SceneRoots:
   - {fileID: 1998489895}
   - {fileID: 1516349714}
   - {fileID: 751967265}
-  - {fileID: 160051176}
