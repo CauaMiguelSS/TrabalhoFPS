@@ -1876,7 +1876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Inimigo
   health: 3
   speed: 3
-  player: {fileID: 0}
+  player: {fileID: 2335519}
 --- !u!54 &1998489902
 Rigidbody:
   m_ObjectHideFlags: 0
