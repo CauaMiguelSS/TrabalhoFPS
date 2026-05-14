@@ -62,7 +62,7 @@ public class PlayerThrow : MonoBehaviour
             ForceMode.Impulse
         );
 
-        Destroy(heldItem, 5f);
+        Destroy(heldItem, 3f);
 
         heldItem = null;
     }

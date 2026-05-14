@@ -1,14 +1,13 @@
 using UnityEngine;
 
-public class MeeleWeapon : MonoBehaviour
+public class MeleeWeapon : MonoBehaviour
 {
-    [Header("Configuração")]
     public float attackRange = 2f;
     public int damage = 2;
     public float attackCooldown = 0.5f;
 
-    [Header("Referências")]
     public Camera playerCamera;
+    public Animator animator;
 
     private bool canAttack = true;
 
@@ -23,6 +22,8 @@ public class MeeleWeapon : MonoBehaviour
     private void Attack()
     {
         canAttack = false;
+
+        animator.SetTrigger("Attack");
 
         Ray ray = playerCamera.ScreenPointToRay(
             new Vector3(Screen.width / 2, Screen.height / 2)

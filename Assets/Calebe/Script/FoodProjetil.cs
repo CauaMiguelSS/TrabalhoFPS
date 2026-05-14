@@ -2,28 +2,32 @@ using UnityEngine;
 
 public class FoodProjetil : MonoBehaviour
 {
+    [Header("Configuração")]
+    public int damage = 1;
     public GameObject explosionEffect;
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        // Só reage se for inimigo
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (!collision.collider.CompareTag("Enemy"))
+            return;
+
+        EnemyBase enemy =
+            collision.collider.GetComponentInParent<EnemyBase>();
+
+        if (enemy != null)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
-            if (enemy != null)
-            {
-                enemy.TakeDamage(1);
-            }
-
-            if (explosionEffect != null)
-            {
-                Instantiate(explosionEffect, transform.position, Quaternion.identity);
-            }
-
-            Destroy(gameObject);
+            enemy.TakeDamage(damage);
         }
 
-    }
+        if (explosionEffect != null)
+        {
+            Instantiate(
+                explosionEffect,
+                transform.position,
+                Quaternion.identity
+            );
+        }
 
+        Destroy(gameObject);
+    }
 }
