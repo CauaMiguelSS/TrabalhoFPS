@@ -11,34 +11,35 @@ public class EnemyBase : MonoBehaviour
     [Header("UI")]
     public Slider healthBar;
 
-    [Header("Visual")]
-    public Renderer enemyRenderer;
+    private Renderer enemyRenderer;
     private Color originalColor;
 
     protected virtual void Start()
     {
         currentHealth = maxHealth;
 
-        if (healthBar != null)
-        {
-            healthBar.maxValue = maxHealth;
-            healthBar.value = currentHealth;
-        }
+        enemyRenderer = GetComponentInChildren<Renderer>();
 
         if (enemyRenderer != null)
         {
             originalColor = enemyRenderer.material.color;
         }
+
+        if (healthBar != null)
+        {
+            healthBar.maxValue = maxHealth;
+            healthBar.value = currentHealth;
+        }
     }
 
     public virtual void TakeDamage(int damage)
     {
-        Debug.Log(currentHealth);
-
         currentHealth -= damage;
 
         if (healthBar != null)
+        {
             healthBar.value = currentHealth;
+        }
 
         StartCoroutine(FlashRed());
 
@@ -50,9 +51,14 @@ public class EnemyBase : MonoBehaviour
 
     private IEnumerator FlashRed()
     {
-        enemyRenderer.material.color = Color.red;
-        yield return new WaitForSeconds(0.15f);
-        enemyRenderer.material.color = originalColor;
+        if (enemyRenderer != null)
+        {
+            enemyRenderer.material.color = Color.red;
+
+            yield return new WaitForSeconds(0.15f);
+
+            enemyRenderer.material.color = originalColor;
+        }
     }
 
     protected virtual void Die()

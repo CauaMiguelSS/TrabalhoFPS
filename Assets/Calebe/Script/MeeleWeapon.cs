@@ -1,19 +1,23 @@
 using UnityEngine;
 
-public class MeleeWeapon : MonoBehaviour
+public class MeeleWeapon : MonoBehaviour
 {
-    public float attackRange = 2f;
-    public int damage = 2;
-    public float attackCooldown = 0.5f;
-
-    public Camera playerCamera;
+    [Header("Ataque")]
     public Animator animator;
+    public int damage = 2;
+    public float attackRange = 2f;
+    public LayerMask enemyLayer;
 
-    private bool canAttack = true;
+    private Camera playerCamera;
+
+    private void Start()
+    {
+        playerCamera = Camera.main;
+    }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && canAttack)
+        if (Input.GetMouseButtonDown(1))
         {
             Attack();
         }
@@ -21,29 +25,25 @@ public class MeleeWeapon : MonoBehaviour
 
     private void Attack()
     {
-        canAttack = false;
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
 
-        animator.SetTrigger("Attack");
-
-        Ray ray = playerCamera.ScreenPointToRay(
-            new Vector3(Screen.width / 2, Screen.height / 2)
+        Ray ray = new Ray(
+            playerCamera.transform.position,
+            playerCamera.transform.forward
         );
 
-        if (Physics.Raycast(ray, out RaycastHit hit, attackRange))
+        if (Physics.Raycast(ray, out RaycastHit hit, attackRange, enemyLayer))
         {
-            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            EnemyBase enemy =
+                hit.collider.GetComponentInParent<EnemyBase>();
 
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
             }
         }
-
-        Invoke(nameof(ResetAttack), attackCooldown);
-    }
-
-    private void ResetAttack()
-    {
-        canAttack = true;
     }
 }

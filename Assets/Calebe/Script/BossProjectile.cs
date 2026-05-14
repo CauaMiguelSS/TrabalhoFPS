@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class BossProjectile : MonoBehaviour
 {
+    [Header("Configuração")]
     public int damage = 15;
-    private bool hasHit;
+    public float lifeTime = 8f;
+
+    private bool hasHit = false;
 
     private void Start()
     {
-        Destroy(gameObject, 8f);
+        Destroy(gameObject, lifeTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -20,9 +23,14 @@ public class BossProjectile : MonoBehaviour
         if (player != null)
         {
             hasHit = true;
+
             player.TakeDamage(damage);
 
             Destroy(gameObject, 3f);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }

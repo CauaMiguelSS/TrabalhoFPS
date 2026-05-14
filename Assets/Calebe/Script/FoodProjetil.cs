@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class FoodProjetil : MonoBehaviour
 {
-    [Header("Configuração")]
     public int damage = 1;
     public GameObject explosionEffect;
 
@@ -12,7 +11,7 @@ public class FoodProjetil : MonoBehaviour
             return;
 
         EnemyBase enemy =
-            collision.collider.GetComponentInParent<EnemyBase>();
+            collision.collider.GetComponent<EnemyBase>();
 
         if (enemy != null)
         {
